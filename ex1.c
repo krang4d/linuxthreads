@@ -12,9 +12,10 @@ process (void *arg)
 {
   int i;
   fprintf (stderr, "Starting process %s\n", (char *) arg);
-  for (i = 0; i < 10000; i++)
+  for (i = 0; i < 10; i++)
     {
       write (1, (char *) arg, 1);
+      sleep(1);
     }
   return NULL;
 }

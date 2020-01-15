@@ -34,7 +34,8 @@
 #define TIMEOUT 1000000
 #define DELAY   1000000
 
-static pthread_rwlock_t lock = PTHREAD_RWLOCK_WRITER_NONRECURSIVE_INITIALIZER_NP;
+static pthread_rwlock_t lock = PTHREAD_RWLOCK_INITIALIZER;
+                              //PTHREAD_RWLOCK_WRITER_NONRECURSIVE_INITIALIZER_NP;
 
 
 static void *

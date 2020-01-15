@@ -4,9 +4,10 @@
    once to the right of the arrow and once to the left. */
 
 #include <stdio.h>
-#include "pthread.h"
+#include <pthread.h>
+#include <unistd.h>
 
-#define BUFFER_SIZE 16
+#define BUFFER_SIZE 10
 
 /* Circular buffer of integers. */
 
@@ -38,6 +39,7 @@ put (struct prodcons *b, int data)
   /* Wait until buffer is not full */
   while ((b->writepos + 1) % BUFFER_SIZE == b->readpos)
     {
+      printf("put(wait) Writepos: %d, Readpos: %d\n", b->writepos, b->readpos);
       pthread_cond_wait (&b->notfull, &b->lock);
       /* pthread_cond_wait reacquired b->lock before returning */
     }
@@ -60,6 +62,7 @@ get (struct prodcons *b)
   /* Wait until buffer is not empty */
   while (b->writepos == b->readpos)
     {
+      printf("get(wait) Writepos: %d, Readpos: %d\n", b->writepos, b->readpos);
       pthread_cond_wait (&b->notempty, &b->lock);
     }
   /* Read the data and advance read pointer */
@@ -84,9 +87,9 @@ static void *
 producer (void *data)
 {
   int n;
-  for (n = 0; n < 10000; n++)
+  for (n = 0; n < 100; n++)
     {
-      printf ("%d --->\n", n);
+      printf ("put(%d) --->\n", n);
       put (&buffer, n);
     }
   put (&buffer, OVER);
@@ -102,7 +105,7 @@ consumer (void *data)
       d = get (&buffer);
       if (d == OVER)
 	break;
-      printf ("---> %d\n", d);
+      printf (" ---> get(%d)\n", d);
     }
   return NULL;
 }
