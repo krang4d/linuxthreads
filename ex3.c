@@ -9,7 +9,7 @@
 #include <pthread.h>
 
 /* Defines the number of searching threads */
-#define NUM_THREADS 5
+#define NUM_THREADS 10
 
 /* Function prototypes */
 void *search(void *);

@@ -5,16 +5,26 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include "pthread.h"
+
+#define _GNU_SOURCE         /*  See feature_test_macros(7) */
+#include <unistd.h>
+#include <sys/syscall.h>   /*  For SYS_xxx definitions */
 
 static void *
 process (void *arg)
 {
   int i;
+  pid_t tid;
+  tid = syscall(SYS_gettid);
+
   fprintf (stderr, "Starting process %s\n", (char *) arg);
   for (i = 0; i < 10; i++)
     {
+      printf("ID: %ld TID: %ld\n", pthread_self(), tid);
       write (1, (char *) arg, 1);
+      printf(" \n");
       sleep(1);
     }
   return NULL;
@@ -23,6 +33,8 @@ process (void *arg)
 int
 main (void)
 {
+
+   
   int retcode;
   pthread_t th_a, th_b;
   void *retval;

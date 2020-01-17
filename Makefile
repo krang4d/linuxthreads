@@ -1,13 +1,14 @@
 CC=gcc
 CFLAGS=-g -O -Wall -D_REENTRANT -pthread
-#LIBPTHREAD=../libpthread.a
+
+LIBPTHREAD=/usr/lib/i386-linux-gnu/libpthread.a
 
 PROGS=ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex7_1 ex8 ex9 ex10 ex11 ex12 ex13 ex16 ex17 ex18 proxy
 
 all: $(PROGS)
 
 .c:
-	$(CC) $(CFLAGS) -o $* $*.c 
+	$(CC) $(CFLAGS) -o $* $*.c $(LIBPTHREAD)
 
 $(PROGS):
 
@@ -25,7 +26,7 @@ ex4: ex4.c
 
 ex5: ex5.c
 	$(CC) $(CFLAGS) -o ex5 ex5.c
-
+	:
 ex6: ex6.c
 	$(CC) $(CFLAGS) -o ex6 ex6.c
 
@@ -58,8 +59,9 @@ ex14: ex14.c
 ex15: ex15.c
 	$(CC) $(CFLAGS) -o ex15 ex15.c
 
-ex16: ex16.c
-	$(CC) $(CFLAGS) -o ex16 ex16.c
+ex16: ex16.o 
+	$(CC) $(CFLAGS) -o ex16 ex16.c $(LIBPTHREAD)
+
 
 ex17: ex17.c
 	$(CC) $(CFLAGS) -o ex17 ex17.c
