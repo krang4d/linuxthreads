@@ -94,6 +94,7 @@ void *search(void *arg)
   pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
   pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
 
+  printf("Thread %lx is started to search the number %d, i = %d.\n", tid, num, i);
   while (started < NUM_THREADS)
     sched_yield ();
 
